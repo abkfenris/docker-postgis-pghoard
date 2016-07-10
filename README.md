@@ -14,6 +14,8 @@ This container can be run in one of two ways. Either it can back up another Post
 
 ### Restore from backup
 
+Probably should add some information here.
+
 ### Backup a seperate database
 
 Run the container with the command `pghoard --config PGHOARD_CONFIG_DIR` with `PGHOARD_CONFIG_DIR` pointing to your mounted config file.
