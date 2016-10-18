@@ -3,7 +3,7 @@ import os
 import shutil
 import subprocess
 
-postgres_versions = ['9.4', '9.5', '9.6']
+postgres_versions = ['9.6', '9.5', '9.4']
 postgis_versions = ['2.3']
 pghoard_versions = ['1.4.0']
 
