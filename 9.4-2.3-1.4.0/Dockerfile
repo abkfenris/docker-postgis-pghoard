@@ -1,4 +1,4 @@
-FROM mdillon/postgis:{pg_version}
+FROM mdillon/postgis:9.4
 MAINTAINER Alex Kerney <abk@mac.com>
 
 RUN apt-get update && apt-get install -y \
@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
   python3-dev \
   python3-pip \
   libsnappy-dev \
-  postgresql-server-dev-{pg_version} \
+  postgresql-server-dev-9.4 \
   libffi-dev
 
 RUN pip3 install \
@@ -15,10 +15,10 @@ RUN pip3 install \
   google-api-python-client \
   azure
 
-ADD https://github.com/ohmu/pghoard/archive/{pghoard_version}.tar.gz pghoard.tar.gz
+ADD https://github.com/ohmu/pghoard/archive/1.4.0.tar.gz pghoard.tar.gz
 RUN tar xzf pghoard.tar.gz
-RUN python3 pghoard-{pghoard_version}/setup.py bdist_egg
-RUN easy_install3 pghoard-{pghoard_version}/dist/pghoard-{pghoard_version}-py3.4.egg
+RUN python3 pghoard-1.4.0/setup.py bdist_egg
+RUN easy_install3 pghoard-1.4.0/dist/pghoard-1.4.0-py3.4.egg
 
 RUN mkdir /backups
 

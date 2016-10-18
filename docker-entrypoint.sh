@@ -6,43 +6,50 @@ if [ "${1:0:1}" = '-' ]; then
 fi
 
 if [ "$1" = 'postgres' ]; then
+	if [ "$PGHOARD_RUNNING_CONFIG" ]; then
+		running_config=$PGHOARD_RUNNING_CONFIG
+	fi
 
-	# look specifically for PG_VERSION, as it is expected in the DB dir
-	if [ ! -s "$PGDATA/PG_VERSION" ]; then
-		if { "$PGHOARD_RUNNING_CONFIG" }; then
-			running_config=$PGHOARD_RUNNING_CONFIG
-		else
-			running_config=/pghoard.json
-		fi
+	if [ "$PGHOARD_RESTORE_BASEBACKUP_CONFIG" ]; then
+		restore_config=$PGHOARD_RESTORE_BASEBACKUP_CONFIG
+	else
+		restore_config=$running_config
+	fi
 
-		if [ "$PGHOARD_RESTORE_BASEBACKUP_CONFIG" ]; then
-			restore_config=$PGHOARD_RESTORE_BASEBACKUP_CONFIG
-		else
-			restore_config=$running_config
-		fi
+	if [ "$restore_config" ]; then
+		RESTORE_DIR=/tmp/restore
+		echo "Starting basebackup restore"
+		mkdir /metadata
+		chmod 700 /metadata
+		chown -R postgres /metadata
 
-	  RESTORE_DIR=/tmp/restore
-	  echo "Starting basebackup restore"
-	  pghoard_restore get-basebackup --target-dir "$RESTORE_DIR" --config $restore_config --overwrite --restore-to-master
+		mkdir /backup
+		chmod 700 /backup
+		chown -R postgres /backup
 
-	  mkdir /metadata
-	  chmod 700 /metadata
-	  chown -R postgres /metadata
 
-	  mkdir /home/postgres
-	  chown -R postgres /home/postgres
+		gosu postgres pghoard_restore get-basebackup --target-dir "$RESTORE_DIR" --config $restore_config --overwrite --restore-to-master
 
-	  echo "Starting pghoard in the background"
-	  gosu postgres pghoard --config $running_config &
+		mkdir /home/postgres
+		chown -R postgres /home/postgres
 
-	  echo "Copying data from restore directory to PGDATA"
-	  cp -R $RESTORE_DIR/* $PGDATA
+		echo "Copying data from restore directory to $PGDATA"
+		cp -R $RESTORE_DIR/* $PGDATA
 		chmod 700 "$PGDATA"
 		chown -R postgres "$PGDATA"
 
 		chmod g+s /run/postgresql
 		chown -R postgres /run/postgresql
-		
+
+		echo "Starting pghoard in the background"
+		gosu postgres pghoard --config $running_config &
+	fi
+
+	# look specifically for PG_VERSION, as it is expected in the DB dir
+	if [ ! -s "$PGDATA/PG_VERSION" ]; then
+		echo "No pghoard config specified, creating new db from scratch"
+
+
 		eval "gosu postgres initdb $POSTGRES_INITDB_ARGS"
 
 		# check password first so we can output the warning before postgres
