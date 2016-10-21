@@ -1,5 +1,7 @@
 # abkfenris/postgis-pghoard
 
+[![](https://images.microbadger.com/badges/image/abkfenris/docker-postgis-pghoard.svg)](https://microbadger.com/images/abkfenris/docker-postgis-pghoard) [![](https://images.microbadger.com/badges/version/abkfenris/docker-postgis-pghoard.svg)](https://microbadger.com/images/abkfenris/docker-postgis-pghoard)
+
 The `abkfenris/postgis-pghoard` image provides a Docker container running Postgres 9 with [PostGIS 2.2](http://postgis.net/) and [PGHoard](https://github.com/ohmu/pghoard) installed. This image is based on the [mdillon/postgis](https://hub.docker.com/r/mdillon/postgis/) image and provides variants for each version of Postgres 9 supported by the base image (9.1-9.5).
 
 
