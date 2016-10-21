@@ -15,10 +15,10 @@ RUN pip3 install \
   google-api-python-client \
   azure
 
-ADD https://github.com/ohmu/pghoard/archive/1.4.0.tar.gz pghoard.tar.gz
-RUN tar xzf pghoard.tar.gz
-RUN python3 pghoard-1.4.0/setup.py bdist_egg
-RUN easy_install3 pghoard-1.4.0/dist/pghoard-1.4.0-py3.4.egg
+ADD https://github.com/ohmu/pghoard/archive/1.4.0.tar.gz /opt/pghoard.tar.gz
+RUN tar xzf /opt/pghoard.tar.gz
+RUN python3 /pghoard-1.4.0/setup.py bdist_egg
+RUN easy_install3 /pghoard-1.4.0/dist/pghoard-1.4.0-py3.4.egg
 
 RUN mkdir /backups
 

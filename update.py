@@ -23,11 +23,6 @@ try:
 except SyntaxError:
     build = False
 
-try:
-    push = str(raw_input('docker push files? [y/N] ')).lower() == 'y'
-except SyntaxError:
-    push = False
-
 for version in versions:
     pg, gis, ph = version
 
@@ -56,9 +51,11 @@ for version in versions:
                          'build',
                          '-t',
                          'abkfenris/postgis-pghoard:' + pg + '-' + ph, path])
-    if push:
-        subprocess.call(['docker', 'push', 'abkfenris/postgis-pghoard:' + pg + '-' + ph])
+    
 
 if build:
+    if str(raw_input('docker push files? [y/N] ')).lower() == 'y':
+        subprocess.call(['docker', 'push', 'abkfenris/postgis-pghoard:' + pg + '-' + ph])
+
     if str(raw_input('clean dangling images? [y/N] ')).lower() == 'y':
         os.system('docker rmi $(docker images --quiet --filter "dangling=true")')
