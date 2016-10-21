@@ -5,11 +5,11 @@ echo "Configuring database to accept pghoard backups."
 
 file="$PGDATA/postgresql.conf"
 
-cat <<EOT >> file
+cat <<EOT 
 wal_level = archive
 max_wal_senders = 4
 archive_timeout = 300
-EOT
+EOT >> $file
 
 #echo "host    REPLICATION     $PGHOARD_USER   $PGHOARD_HOSTNAME       md5" >> /var/lib/postgresql/data/pg_hba.conf
 
