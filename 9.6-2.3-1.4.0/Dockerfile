@@ -24,5 +24,7 @@ RUN mkdir /backups
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
+COPY ./initdb-pghoard.sh /docker-entrypoint-initdb.d/initdb-pghoard.sh
+
 EXPOSE 5432
 CMD ["postgres"]

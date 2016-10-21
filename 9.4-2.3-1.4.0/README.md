@@ -13,7 +13,7 @@ If you would prefer to use the older template database mechanism for enabling Po
 This container is designed to be run on a Kubernetes host.
 When restoring from a backup, an init container should be run first, then the primary postgres server container and a container managing the backup should be run as the same pod.
 
-Once I've got everything tested I will include some example Kubernetes configs.
+Once I've got everything tested I will include some example Kubernetes configs. Working on example text currently.
 
 
 ## Old stuff below

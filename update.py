@@ -7,7 +7,7 @@ postgres_versions = ['9.6', '9.5', '9.4']
 postgis_versions = ['2.3']
 pghoard_versions = ['1.4.0']
 
-build_files = ['README.md']  # ['README.md', 'initdb-pghoard.sh', 'docker-entrypoint.sh']
+build_files = ['README.md', 'initdb-pghoard.sh']  # ['README.md', 'initdb-pghoard.sh', 'docker-entrypoint.sh']
 
 versions = [(pg, gis, ph) for pg in postgres_versions
             for gis in postgis_versions
@@ -22,6 +22,11 @@ try:
     build = str(raw_input('docker build files? [y/N] ')).lower() == 'y'
 except SyntaxError:
     build = False
+
+try:
+    push = str(raw_input('docker push files? [y/N] ')).lower() == 'y'
+except SyntaxError:
+    push = False
 
 for version in versions:
     pg, gis, ph = version
@@ -51,6 +56,8 @@ for version in versions:
                          'build',
                          '-t',
                          'abkfenris/postgis-pghoard:' + pg + '-' + ph, path])
+    if push:
+        subprocess.call(['docker', 'push', 'abkfenris/postgis-pghoard:' + pg + '-' + ph])
 
 if build:
     if str(raw_input('clean dangling images? [y/N] ')).lower() == 'y':
