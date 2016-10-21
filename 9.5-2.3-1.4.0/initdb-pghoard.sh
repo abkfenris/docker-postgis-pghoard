@@ -3,7 +3,9 @@ set -e
 
 echo "Configuring database to accept pghoard backups."
 
-cat <<EOT >> /var/lib/postgresql/data/postgresql.conf
+file="$PGDATA/postgresql.conf"
+
+cat <<EOT >> file
 wal_level = archive
 max_wal_senders = 4
 archive_timeout = 300
@@ -11,7 +13,7 @@ EOT
 
 #echo "host    REPLICATION     $PGHOARD_USER   $PGHOARD_HOSTNAME       md5" >> /var/lib/postgresql/data/pg_hba.conf
 
-file='/var/lib/postgresql/data/pg_hba.conf'
+file="$PGDATA/pg_hba.conf"
 
 # works to insert, but doesn't replace env variables
 #sed -i 's/host.*0\/0.*trust/host replication $PGHOARD_USER $PGHOARD_HOSTNAME md5\n&/' $file
