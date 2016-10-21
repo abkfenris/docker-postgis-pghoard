@@ -3,7 +3,7 @@ import os
 import shutil
 import subprocess
 
-postgres_versions = ['9.6', '9.5', '9.4']
+postgres_versions = ['9.6'] #, '9.5', '9.4']
 postgis_versions = ['2.3']
 pghoard_versions = ['1.4.0']
 
@@ -55,7 +55,9 @@ for version in versions:
 
 if build:
     if str(raw_input('docker push files? [y/N] ')).lower() == 'y':
-        subprocess.call(['docker', 'push', 'abkfenris/postgis-pghoard:' + pg + '-' + ph])
+        for version in versions:
+            pg, gis, ph = version
+            subprocess.call(['docker', 'push', 'abkfenris/postgis-pghoard:' + pg + '-' + ph])
 
     if str(raw_input('clean dangling images? [y/N] ')).lower() == 'y':
         os.system('docker rmi $(docker images --quiet --filter "dangling=true")')
