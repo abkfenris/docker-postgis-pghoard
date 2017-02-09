@@ -1,0 +1,5 @@
+boto==2.45.0
+httplib2==0.10.3
+google-api-python-client==1.6.2
+oauth2client<4.0.0
+azure==1.0.3

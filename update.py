@@ -7,7 +7,7 @@ postgres_versions = ['9.6'] #, '9.5', '9.4']
 postgis_versions = ['2.3']
 pghoard_versions = ['1.4.0']
 
-build_files = ['README.md', 'initdb-pghoard.sh']  # ['README.md', 'initdb-pghoard.sh', 'docker-entrypoint.sh']
+build_files = ['README.md', 'initdb-pghoard.sh', 'requirements.txt']  # ['README.md', 'initdb-pghoard.sh', 'docker-entrypoint.sh']
 
 versions = [(pg, gis, ph) for pg in postgres_versions
             for gis in postgis_versions
